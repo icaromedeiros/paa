@@ -128,5 +128,53 @@ class HeapSort(Sort):
     def sort(self,vetor):
         return vetor
 
+class MaxHeap(object):
+
+    def __init__(self,vetor):
+        self.vetor = vetor
+        self.build_max_heap()
+
+    def build_max_heap(self):
+        for i in range(len(self.vetor) / 2,-1,-1):
+            self.max_heapify(i)
+
+    def max_heapify(self,indice):
+        left = self.left(indice)
+        right = self.right(indice)
+
+        valor_indice = self.vetor[indice]
+        valor_left = self.vetor[left] if left < len(self.vetor) else None
+        valor_right = self.vetor[right] if right < len(self.vetor) else None
+
+        # nó folha
+        if not valor_left and not valor_right:
+            return
+
+        maior = None
+        if valor_left > valor_indice and (not valor_right or self.vetor[left] > self.vetor[right]):
+            maior = left
+        elif valor_right and self.vetor[right] > self.vetor[indice] and self.vetor[right] > self.vetor[indice]:
+            maior = right
+
+        if maior:
+            (self.vetor[indice],self.vetor[maior]) = (self.vetor[maior], valor_indice)
+            self.max_heapify(maior)
+
+    def left(self,i):
+        return 2 * i + 1
+
+    def right(self,i):
+        return 2 * i + 2
+
+    def parent(self,i):
+        if i == 0 or i == 1:
+            return 0
+        else:
+            if i % 2 == 0:
+                return i / 2 - 1
+            else:
+                return i / 2
+
+
 if __name__ == "__main__":
     main()
