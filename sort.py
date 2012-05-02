@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+#-*- coding:utf-8 -*- 
 
 from optparse import OptionParser
-import sys
 
 def main():
     print "\nProblema: Ordenar vetores"
@@ -11,66 +10,123 @@ def main():
     parser.add_option("-v", "--vetor", dest="vetor")
     parser.add_option("-i", "--insertion_sort", action="store_true",dest="insertion_sort")    
     parser.add_option("-m", "--merge_sort", action="store_true",dest="merge_sort")
-        
+    parser.add_option("-q", "--quick_sort", action="store_true",dest="quick_sort")
+
     (options, args) = parser.parse_args()
     if options.vetor:
         vetor_splitted = options.vetor.split(",")
         vetor = list()
         for num in vetor_splitted:
             vetor.append(int(num))
-            
+
         print "\nVetor recebido %s" % vetor
-        
+
         vetor_final = list()
-            
+
         if options.insertion_sort:
-            vetor_final = insertion_sort(vetor)
+            insertion = InsertionSort()
+            vetor_final = insertion.sort(vetor)
         elif options.merge_sort:
-            vetor_final = merge_sort(vetor)
-            
+            merge = MergeSort()
+            vetor_final = merge.sort(vetor)
+        elif options.quick_sort:
+            quick = QuickSort()
+            vetor_final = quick.sort(vetor)
+
         print "Vetor final: %s" % vetor_final
     else:
         print "Parâmetros errados"
-        
-def insertion_sort(vetor):
-    vetor_final = list()
-    return vetor_final
 
-def merge_sort(vetor):
-    if len(vetor) == 1:
+class Sort(object):
+
+    def sort(self,vetor):
+        pass
+
+class InsertionSort(Sort):
+
+    def sort(self,vetor):
+        for i in range(1,len(vetor)):
+            key = vetor[i]
+            j = i
+            while j > 0 and vetor [j-1] > key:
+                vetor[j] = vetor [j-1]
+                j -= 1
+            vetor[j] = key
+
         return vetor
-    
-    vetor_final = list()
-        
-    meio = len(vetor) / 2
 
-    vetor_esq = merge_sort(vetor[0:meio])
-    vetor_dir = merge_sort(vetor[meio:len(vetor)+1])
-    vetor_final = intercalacao(vetor_esq,vetor_dir)
-    
-    return vetor_final
+class MergeSort(Sort):
 
-def intercalacao(vetor1,vetor2):
-        
-    vetor1.append(sys.maxint)
-    vetor2.append(sys.maxint)
+    def sort(self,vetor):
+        if len(vetor) == 1:
+            return vetor
 
-    i = j = 0
-    vetor_final = list()
-    
-    for k in range(len(vetor1) + len(vetor2) - 2): # -2 por causa das duas inserções acima
+        vetor_final = list()
 
-        if vetor1[i] < vetor2[j]:
-            vetor_final.append(vetor1[i])
-            if i + 1 < len(vetor1):
-                i += 1
-        else:
-            vetor_final.append(vetor2[j])
-            if j + 1 < len(vetor2):
+        meio = len(vetor) / 2
+
+        vetor_esq = self.sort(vetor[0:meio])
+        vetor_dir = self.sort(vetor[meio:len(vetor)+1])
+        vetor_final = self.intercalacao(vetor_esq,vetor_dir)
+
+        return vetor_final
+
+    def intercalacao(self,vetor1,vetor2):
+
+        i = j = 0
+        vetor_final = list()
+
+        for k in range(len(vetor1) + len(vetor2)):
+            if i >= len(vetor1):
+                vetor_final.append(vetor2[j]) 
                 j += 1
-         
-    
-    return vetor_final
-    
+                continue
+
+            if j >= len(vetor2):
+                vetor_final.append(vetor1[i])
+                i += 1
+                continue
+
+            if vetor1[i] < vetor2[j]:
+                vetor_final.append(vetor1[i])
+                i += 1
+            else:
+                vetor_final.append(vetor2[j])
+                j += 1
+
+
+        return vetor_final
+
+class QuickSort(Sort):
+
+    def sort(self,vetor):
+        if len(vetor) <= 1:
+            return vetor
+
+        less, equal, greater = self.particao(vetor)
+        return self.sort(less) + equal + self.sort(greater)
+
+    def particao(self,vetor):
+        less, equal, greater = [], [], []
+        pivot = self.seleciona_pivo(vetor)
+
+        for x in vetor:
+            if x < pivot: 
+                less.append(x)
+            elif x == pivot:
+                equal.append(x)
+            else:
+                greater.append(x)
+
+        return (less, equal, greater)
+
+    def seleciona_pivo(self,vetor):
+        return vetor[len(vetor)-1]
+
+class HeapSort(Sort):
+
+    def sort(self,vetor):
+        return vetor
+
 if __name__ == "__main__":
     main()
