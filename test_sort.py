@@ -2,7 +2,7 @@
 #-*- coding:utf-8 -*- 
 
 import unittest
-from sort import InsertionSort,MergeSort,QuickSort,MaxHeap
+from sort import InsertionSort,MergeSort,QuickSort,HeapSort,MaxHeap
 
 
 vetor_default = [8,4,3,1,2,5,9,6,4,2,7]
@@ -43,6 +43,13 @@ class QuickSortTest(unittest.TestCase):
         quick = QuickSort()
         vetor_ordenado = quick.sort(vetor_default)
 
+        self.assertEquals(vetor_esperado_default,vetor_ordenado)
+
+class HeapSortTest(unittest.TestCase):
+
+    def test_heap_sort(self):
+        heap = HeapSort()
+        vetor_ordenado = heap.sort(vetor_default)
         self.assertEquals(vetor_esperado_default,vetor_ordenado)
 
 class MaxHeapTest(unittest.TestCase):
@@ -119,17 +126,18 @@ class MaxHeapTest(unittest.TestCase):
         parent = max_heap.parent(6)
         self.assertEquals(2,parent)
 
-    def test_max_heapify(self):
+    def test_build_max_heap(self):
         vetor_nao_heap = [1,4,3,2]
         max_heap = MaxHeap(vetor_nao_heap)
 
         self.assertEquals([4,2,3,1],max_heap.vetor)
 
-    def test_max_heapify_2(self):
+    def test_build_max_heap_2(self):
         vetor_nao_heap = [1,2,3,4,5,6]
         max_heap = MaxHeap(vetor_nao_heap)
 
         self.assertEquals([6,5,3,4,2,1],max_heap.vetor)
+
 
 if __name__ == "__main__":
     unittest.main()

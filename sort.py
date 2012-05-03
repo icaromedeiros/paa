@@ -126,7 +126,16 @@ class QuickSort(Sort):
 class HeapSort(Sort):
 
     def sort(self,vetor):
-        return vetor
+        max_heap = MaxHeap(vetor)
+        vetor_final = [0] * len(vetor)
+        for i in range(len(vetor) - 1,-1,-1):
+            vetor_final[i] = max_heap.get(0)
+            max_heap.swap(0,i)
+            max_heap.exclui_ultimo()
+            if len(max_heap.vetor) >= 1: # para não chamr max_heapify com a heap vazia
+                max_heap.max_heapify(0)
+
+        return vetor_final
 
 class MaxHeap(object):
 
@@ -157,8 +166,17 @@ class MaxHeap(object):
             maior = right
 
         if maior:
-            (self.vetor[indice],self.vetor[maior]) = (self.vetor[maior], valor_indice)
+            self.swap(indice,maior)
             self.max_heapify(maior)
+
+    def swap(self,a,b):
+        (self.vetor[a],self.vetor[b]) = (self.vetor[b],self.vetor[a])
+
+    def get(self,i):
+        return self.vetor[i]
+
+    def exclui_ultimo(self):
+        self.vetor = self.vetor[:-1]
 
     def left(self,i):
         return 2 * i + 1
