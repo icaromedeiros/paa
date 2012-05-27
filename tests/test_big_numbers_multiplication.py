@@ -2,7 +2,7 @@
 #-*- coding:utf-8 -*- 
 
 import unittest
-from paa_code.multiplicacao import Karatsuba
+from paa_code.big_numbers_multiplication import Karatsuba
 
 class KaratsubaTest(unittest.TestCase):
 
