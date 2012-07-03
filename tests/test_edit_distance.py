@@ -41,6 +41,17 @@ class EditDistanceTest(unittest.TestCase):
 
         self.assertEquals(1, edit_distance(string1, string2))
         self.assertEquals(1, edit_distance(string2, string1))
+
+    def test_ameixa_alerta(self):
+        string1= "ameixa"
+        string2 = "alerta"
+
+        self.assertEquals(3, edit_distance(string1, string2))
+
+        mins = min(edit_distance("meixa", "lerta"), edit_distance("ameix", "alert"),
+                              1 + edit_distance("meixa","alerta"), 1 + edit_distance("ameix", "alerta"),
+                              1 + edit_distance("ameixa", "lerta"), 1 + edit_distance("ameix", "alerta"))
+        self.assertEquals(3, mins)
  
 if __name__ == "__main__":
     unittest.main()

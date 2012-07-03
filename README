@@ -1,1 +1,10 @@
-Códigos para estudo da matéria de PAA (Projeto e Análise de Algoritmos) do doutorado da PUC-RJ
+Code to exercise and study for Algorithm design and analysis (Projeto e Análise de Algoritmos - PAA) course,
+part of post graduation course in Informatics at Pontifical Catholic University of Rio de Janeiro 2012.1
+
+Running tests:
+
+make test
+
+Running sort:
+
+Example: python paa_code/sort.py -a 1,4,5,2,3 -i # Using Insertion Sort
